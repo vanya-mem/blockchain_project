@@ -83,7 +83,7 @@ def write_block(f_and_s_name, lesson, mark, date, prev_hash=''):
 
 def main():
     write_block('Example', 'Example', 'Example', 'Example')  # ///
-    # Тип данных: str(Фамилия, имя), srt(Нахвание урока), str или int - оценка, str(Дата). Формат: дд.мм.гг
+    # Тип данных: str(Фамилия, имя), srt(Название урока), str или int - оценка, str(Дата). Формат: дд.мм.гг
 
 
 if __name__ == '__main__':
