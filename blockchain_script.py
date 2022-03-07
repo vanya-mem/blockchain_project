@@ -9,7 +9,7 @@ BLOCK_CHAIN_DIRECTION = os.path.abspath(os.curdir) + r'\blockchain'
 def get_hash(filename):
     file = open(BLOCK_CHAIN_DIRECTION + r'\{}'.format(filename), 'rb').read()
 
-    return hashlib.md5(file).hexdigest()
+    return hashlib.sha256(file).hexdigest()
 
 
 def get_files():
@@ -34,7 +34,7 @@ def block_check():
     result = []
 
     for elem in files[1:]:
-        hsh = json.load(open(BLOCK_CHAIN_DIRECTION + r'\{}'.format(elem)))['hash']  # n-го файла (без учета 1)
+        hsh = json.load(open(BLOCK_CHAIN_DIRECTION + r'\{}'.format(elem)))['Хэш']  # Хэш n-го файла (без учета 1)
 
         last_file = str(elem - 1)
         actual_hash = get_hash(last_file)  # Хэш файла n - 1
@@ -49,17 +49,17 @@ def block_check():
     return result
 
 
-def write_block(name, lesson, mark, date, prev_hash=''):  # Тип даты дд.мм.гг
+def write_block(f_and_s_name, lesson, mark, date, prev_hash=''):
 
-    files = sort_files()
+    files = get_files()
 
     if len(files) == 0:
         data = {
-            'name': name,
-            'lesson': lesson,
-            'mark': mark,
-            'date': date,
-            'hash': prev_hash
+            'Фамилия, имя': f_and_s_name,
+            'Урок': lesson,
+            'Оценка': mark,
+            'Дата': date,
+            'Хэш': prev_hash
         }
 
         with open(BLOCK_CHAIN_DIRECTION + r'\1', 'w', encoding='cp1251') as file:
@@ -70,11 +70,11 @@ def write_block(name, lesson, mark, date, prev_hash=''):  # Тип даты дд
 
         prev_hash = get_hash(str(last_file))
         data = {
-            'name': name,
-            'lesson': lesson,
-            'mark': mark,
-            'date': date,
-            'hash': prev_hash
+            'Фамилия, имя': f_and_s_name,
+            'Урок': lesson,
+            'Оценка': mark,
+            'Дата': date,
+            'Хэш': prev_hash
         }
 
         with open(BLOCK_CHAIN_DIRECTION + r'\{}'.format(filename), 'w', encoding='cp1251') as file:
@@ -82,8 +82,8 @@ def write_block(name, lesson, mark, date, prev_hash=''):  # Тип даты дд
 
 
 def main():
-    print(block_check())
-    write_block('Example', 'Example', 'Example', 'Example')
+    write_block('Example', 'Example', 'Example', 'Example')  # ///
+    # Тип данных: str(Фамилия, имя), srt(Нахвание урока), str или int - оценка, str(Дата). Формат: дд.мм.гг
 
 
 if __name__ == '__main__':
