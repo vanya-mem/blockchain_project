@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="{{ url_for('index') }}" method="POST">
+    <div class="mb-3">
+        <label for="NameAndSecondName" class="form-label">Имя и фамилия</label>
+        <input type="text" class="form-control" id="NameAndSecondName" aria-describedby="ExampleName" placeholder="..."
+        name="student" value="{{ request.form.get('student', '') }}">
+        <div id="ExampleName" class="form-text">Пример: Иван Кожеуров</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="NameOfLesson" class="form-label">Название урока</label>
+        <input type="text" class="form-control" id="NameOfLesson" aria-describedby="ExampleLesson" placeholder="..."
+        name="lesson" value="{{ request.form.get('lesson', '') }}">
+        <div id="ExampleLesson" class="form-text">Пример: Алгебра</div>
+    </div>
+
+    <div class="mb-3">
+        <label for="Mark" class="form-label">Оценка</label>
+        <input type="text" class="form-control" id="Mark" placeholder="..." name="mark" value="{{ request.form.get('mark', '') }}">
+    </div>
+
+    <div class="mb-3">
+        <label for="DateOfLesson" class="form-label">Дата урока</label>
+        <input type="date" class="form-control" id="DateOfLesson" name="date" value="{{ request.form.get('date', '') }}">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Записать</button>
+</form>
+
+{% endblock %}
+
+{% block check %}
+   {% for result in results %}
+      <div class="result">
+
+          Блок {{ result['Блок'] }}: {{ result['Результат'] }}
+
+      </div>
+
+   {% endfor %}
+{% endblock %}
