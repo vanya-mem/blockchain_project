@@ -23,25 +23,34 @@ def get_files(student_folder):
 
 def sort_files(student_folder):
     files = get_files(student_folder)
-    files = [int(i) for i in files]
+    number_of_file = []
+    for i in files:
+        i = int(i)
+        number_of_file.append(i)
+    number_of_file.sort()
 
-    last_file = files[-1]
-    filename = str(last_file + 1)
+    if len(number_of_file) != 0:
+        last_file = number_of_file[-1]
+        filename = str(last_file + 1)
 
-    return last_file, filename
+        return last_file, filename
 
 
 def block_check(student_folder):
     files = get_files(student_folder)
-    files = [int(i) for i in files]
+    number_of_file = []
+    for i in files:
+        i = int(i)
+        number_of_file.append(i)
+    number_of_file.sort()
 
     result = []
 
-    for elem in files[1:]:
-        hsh = json.load(open(BLOCK_CHAIN_DIRECTION + r'\{}'.format(student_folder) + r'\{}'.format(elem)))['Хэш']  # Хэш n-го файла (без учета 1)
+    for elem in number_of_file[1:]:
+        hsh = json.load(open(BLOCK_CHAIN_DIRECTION + r'\{}'.format(student_folder) + r'\{}'.format(elem)))['Хэш']
 
         last_file = str(elem - 1)
-        actual_hash = get_hash(student_folder, last_file)  # Хэш файла n - 1
+        actual_hash = get_hash(student_folder, last_file)
 
         if actual_hash == hsh:
             res = 'Всё в порядке'
@@ -59,6 +68,7 @@ def write_block(f_and_s_name, lesson, mark, date, prev_hash=''):
     files = get_files(student_folder=f_and_s_name)
 
     if len(files) == 0:
+
         data = {
             'Фамилия, имя': f_and_s_name,
             'Урок': lesson,
@@ -73,7 +83,8 @@ def write_block(f_and_s_name, lesson, mark, date, prev_hash=''):
 
         last_file, filename = sort_files(student_folder=f_and_s_name)
 
-        prev_hash = get_hash(f_and_s_name, str(last_file))
+        prev_hash = get_hash(f_and_s_name, last_file)
+
         data = {
             'Фамилия, имя': f_and_s_name,
             'Урок': lesson,
@@ -87,9 +98,8 @@ def write_block(f_and_s_name, lesson, mark, date, prev_hash=''):
 
 
 def main():
-    write_block('ExaPLe1', 'Example', 'Example', 'Example')  # ///
-    print(block_check(student_folder='ExaPLe1')) #student_folder - Имя и фамилия ученика. Указывать так же, как в перемен. f_and_s_name
-    # Тип данных: str(Фамилия, имя), srt(Нахвание урока), str или int - оценка, str(Дата). Формат: дд.мм.гг
+    write_block('ExaPLe1', 'Example', 'Example', 'Example')
+    print(block_check(student_folder='ExaPLe1'))
 
 
 if __name__ == '__main__':
